@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{n as t,t as n}from"./UpdateBanner-BmcoMKkF.js";var r,i,a;function o(){return(o=e((()=>{t(),r={title:`workbench/UpdateBanner`,component:n,args:{onReload:()=>void 0}},i={},a=[`Default`]})))()}o();export{i as Default,a as __namedExportsOrder,r as default};
