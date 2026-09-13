@@ -1,1 +1,0 @@
-import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{n as t}from"./iframe-D7vlOShI.js";function n({value:e,defaultValue:t,onChange:n}){let[i,a]=(0,r.useState)(t),o=e!==void 0;return[o?e:i,(0,r.useCallback)(e=>{o||a(e),n?.(e)},[o,n])]}var r;function i(){return(i=e((()=>{r=t()})))()}export{n,i as t};
