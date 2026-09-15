@@ -20,3 +20,6 @@ docs/USER_NOTE.md
 
 # 복사해서 채우는 원본. 값이 없으므로 비밀이 아니다.
 !ops/deploy/.env.example
+
+# 파이썬 바이트코드 — tools/figma/ 가 파이썬을 쓴다
+__pycache__/

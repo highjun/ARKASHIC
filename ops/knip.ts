@@ -39,6 +39,15 @@ const config: KnipConfig = {
       project: ["src/**/*.ts", "test/**/*.ts"],
     },
     "packages/contracts": { entry: ["src/index.ts", "src/**/*.test.ts"], project: ["src/**/*.ts"] },
+    /*
+     * 손으로 부르는 스크립트 모음이라 **전부가 진입점**이다 — 서로를 부르지도 않는다.
+     * `importer.js`는 한술 더 떠 Figma 플러그인 샌드박스에 `fetch`+`eval`로 실리는 코드라
+     * 이 저장소 안에 import하는 곳이 영영 없다. `@playwright/test`는 `extract.mjs`가 쓴다.
+     */
+    "tools/figma": {
+      entry: ["*.mjs", "importer.js"],
+      project: ["**/*.{mjs,js}"],
+    },
     ops: {
       // `ops`는 명령 모음이라 진입점이 여럿이다 — 파이프라인·린트·태스크·배포·훅·백업.
       entry: [

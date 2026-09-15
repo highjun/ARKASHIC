@@ -1,0 +1,10 @@
+{
+  "name": "figma-tools",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "스토리북 렌더를 Figma 레이어로 뽑고 보드로 조립해 올리는 도구들. 산출물은 .output/figma/에 남는다.",
+  "devDependencies": {
+    "@playwright/test": "catalog:"
+  }
+}

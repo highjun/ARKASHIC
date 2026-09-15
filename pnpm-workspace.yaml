@@ -1,6 +1,7 @@
 packages:
   - "packages/*"
   - "ops"
+  - "tools/figma"
 allowBuilds:
   esbuild: true
   simple-git-hooks: true

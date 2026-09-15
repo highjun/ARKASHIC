@@ -30,6 +30,8 @@ const REASONS: Readonly<Record<string, string>> = {
   packages: "배포 단위가 되는 코드. 그 밖은 배치·설정·결정이다.",
   "pnpm-lock.yaml": "워크스페이스 전체가 잠기는 자리가 하나다. pnpm이 루트에서 찾는다.",
   "pnpm-workspace.yaml": "어디가 패키지인지와 catalog를 선언한다. pnpm이 루트에서 찾는다.",
+  tools:
+    "배포되지 않는 개발 도구. `ops`가 세 패키지를 **함께** 다스리는 것이라면 여기는 한 가지 일만 하는 것들이다 — 지금은 스토리북 렌더를 Figma로 옮기는 파이프라인 하나. `ops`에 넣지 않은 이유는 그 패키지의 typecheck·lint가 플러그인 샌드박스에서 도는 코드(`figma` 전역)까지 덮게 되어서다.",
   "tsconfig.json": "세 패키지가 `extends`하는 바탕. 한 곳에서 정하지 않으면 옵션이 갈린다.",
 };
 
