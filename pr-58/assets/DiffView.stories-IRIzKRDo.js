@@ -1,8 +1,0 @@
-import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{n as t,t as n}from"./clsx-CTwy9ux-.js";import{i as r}from"./iframe-C25SulEN.js";var i,a,o;function s(){return(s=e((()=>{i=`_root_cif5s_1`,a=`_line_cif5s_10`,o={root:i,line:a}})))()}var c,l,u;function d(){return(d=e((()=>{t(),s(),c=r(),l=e=>e.startsWith(`+++`)||e.startsWith(`---`)?`meta`:e.startsWith(`@@`)?`hunk`:e.startsWith(`+`)?`add`:e.startsWith(`-`)?`del`:e.startsWith(`diff `)||e.startsWith(`index `)?`meta`:`ctx`,u=({text:e,className:t,ref:r,...i})=>(0,c.jsx)(`pre`,{ref:r,...i,"data-component":`DiffView`,className:n(t,o.root),children:e.split(`
-`).map((e,t)=>(0,c.jsxs)(`span`,{className:o.line,"data-kind":l(e),children:[e,`
-`]},t))}),u.__docgenInfo={description:`unified diff를 줄 단위로 색만 칠해 보여 준다 — 나란히 보기는 에디터가 diff를 받을 때다.
-
-종류를 클래스로 가르지 않고 \`data-kind\`로 드러낸다 — 어느 색을 쓸지는 스타일 결정이다
-(→ ADR 0008).`,methods:[],displayName:`DiffView`,props:{ref:{required:!1,tsType:{name:`Ref`,elements:[{name:`HTMLPreElement`}],raw:`Ref<HTMLPreElement>`},description:`루트 원소로 그대로 통과한다.`},text:{required:!0,tsType:{name:`string`},description:`unified diff 원문. 줄 단위로 갈라 그린다.`}},composes:[`Omit`]}})))()}function f(){return(f=e((()=>{d()})))()}var p,m,h,g,_,v;function y(){return(y=e((()=>{f(),p=[`diff --git a/greet.ts b/greet.ts`,`index 1a2b3c4..5d6e7f8 100644`,`--- a/greet.ts`,`+++ b/greet.ts`,`@@ -1,4 +1,4 @@`,` export const greet = (name: string) => {`,"-  return `Hello, ${name}`;","+  return `안녕, ${name}`;",` };`].join(`
-`),m={title:`git/DiffView`,component:u,args:{text:p}},h={},g={args:{text:[`@@ -0,0 +1,3 @@`,`+첫 줄`,`+둘째 줄`,`+셋째 줄`].join(`
-`)}},_={args:{text:``}},v=[`Default`,`AdditionsOnly`,`Empty`]})))()}y();export{g as AdditionsOnly,h as Default,_ as Empty,v as __namedExportsOrder,m as default};
