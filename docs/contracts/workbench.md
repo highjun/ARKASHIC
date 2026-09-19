@@ -273,7 +273,7 @@ export interface Notification {
   readonly message: string;
 }
 
-/** 화면 구석에 쌓이는 알림. 확장도 여기에 낸다. */
+/** 쌓이는 알림. 확장도 여기에 낸다 — **그것이 어떻게 보이는지는 모른다**(지금은 제목 줄의 종이다). */
 export interface INotifications {
   readonly items: readonly Notification[];
   /** 돌려주는 것은 나중에 지울 수 있는 id다. */
@@ -419,7 +419,7 @@ export interface PaneRowSplit {
 /** `kind`로 갈리는 판별 유니온. */
 export type PaneRowNode = PaneRowLeaf | PaneRowSplit;
 
-/** 구석에 쌓인 알림. */
+/** 쌓인 알림. 안 읽은 수가 제목 줄 종의 배지로 뜨고, 누르면 목록이 열린다. */
 export interface INotificationViewModel {
   readonly items: readonly Notification[];
   dismiss(id: string): void;
@@ -521,13 +521,17 @@ export interface ShellProps extends Omit<ComponentPropsWithoutRef<"div">, "child
   readonly overlays?: ReactNode;
 }
 
-/** 사이드바를 고르는 세로 아이콘 줄. 맨 아래에 설정 톱니가 따로 붙는다 — 사이드바가 아니다. */
+/**
+ * 사이드바를 고르는 세로 아이콘 줄. **위와 아래는 완전히 별개의 묶음이다** — 사이를 늘어나는
+ * 빈 칸이 밀어, 위가 넘쳐 스크롤이 생겨도 아래는 제자리에 남는다. 설정도 아래 묶음의 한 줄이라
+ * 레일은 그것이 설정인지 모르고 id 만 넘긴다.
+ */
 export interface ActivityBarProps extends Omit<ComponentPropsWithoutRef<"nav">, "onSelect"> {
   readonly ref?: Ref<HTMLElement>;
-  readonly items: readonly SidebarRow[];
+  readonly topItems: readonly SidebarRow[];
+  readonly bottomItems?: readonly SidebarRow[];
   readonly onSelect?: (id: string) => void;
   readonly renderItemMenu?: (item: SidebarRow) => ReactNode;
-  readonly onSettingsSelect?: () => void;
 }
 
 /**
@@ -584,20 +588,8 @@ export interface CommandPaletteProps
   readonly onSelect?: (actionId: string) => void;
 }
 
-/** 구석에 쌓이는 알림. */
-export interface NotificationListProps extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
-  readonly items: readonly Notification[];
-  readonly onDismiss?: (id: string) => void;
-}
-
-/** 단축키 표. */
+/** 단축키 표. **설정 화면 안의 한 범주다** — 제 화면을 갖지 않는다. */
 export interface KeybindingTableProps extends Omit<ComponentPropsWithoutRef<"table">, "children"> {
   readonly rows: readonly KeybindingRow[];
-}
-
-/** 셸이 죽었을 때 대신 뜨는 것. **셸 밖에 있다** — 렌더 경계는 자기 오류를 못 잡는다. */
-export interface CrashScreenProps extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
-  readonly message: string;
-  readonly onReload?: () => void;
 }
 ```

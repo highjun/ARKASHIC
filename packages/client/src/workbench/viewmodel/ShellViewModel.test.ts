@@ -196,14 +196,14 @@ describe("IShellViewModel — 모바일 드로어", () => {
   });
 });
 
-describe("IShellViewModel — 설정·단축키 탭 명령", () => {
-  it("shell.openSettings·shell.openKeybindings는 arka.workbench.open에 가상 경로를 넘긴다", () => {
+describe("IShellViewModel — 설정 탭 명령", () => {
+  it("단축키 명령도 설정을 연다 — 제 화면이 없고 설정 안의 한 범주다", () => {
     const { commands, opened } = make();
 
     commands.execute("shell.openSettings");
     commands.execute("shell.openKeybindings");
 
-    expect(opened).toEqual([{ uri: URI.parse("arka:///settings") }, { uri: URI.parse("arka:///keybindings") }]);
+    expect(opened).toEqual([{ uri: URI.parse("arka:///settings") }, { uri: URI.parse("arka:///settings") }]);
   });
 });
 

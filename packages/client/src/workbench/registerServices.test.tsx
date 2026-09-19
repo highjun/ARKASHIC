@@ -64,6 +64,27 @@ describe("registerServices", () => {
     expect(screen.getByLabelText("탐색기")).toBeDefined();
   });
 
+  describe("알림 종", () => {
+    it("온 것이 없으면 종에 수가 안 붙는다", () => {
+      mountWith(new MockWorkspaceFiles({}));
+
+      expect(screen.getByLabelText("알림 없음")).toBeDefined();
+    });
+
+    it("알림이 오면 종에 수가 붙고, 골라서 닫으면 사라진다", async () => {
+      const container = mountWith(new MockWorkspaceFiles({}));
+      act(() => {
+        container.resolve("arka.workbench.notifications").notify("error", "터졌다");
+      });
+
+      // Radix 의 드롭다운은 click 이 아니라 pointerdown 에 열린다(왼쪽 버튼만).
+      fireEvent.pointerDown(await screen.findByLabelText("알림 1건"), { button: 0, ctrlKey: false });
+      fireEvent.click(await screen.findByRole("menuitem", { name: /터졌다/u }));
+
+      expect(await screen.findByLabelText("알림 없음")).toBeDefined();
+    });
+  });
+
   /**
    * jsdom은 CSS를 적용하지 않으므로 트리가 화면 밖으로 밀려 있어도 여기서는 통과한다 —
    * 보이는지가 아니라 **배선이 닿는지**만 보는 테스트다.
@@ -148,10 +169,10 @@ describe("registerServices", () => {
 
   /**
    * 화면이 죽어도 아무도 모르는 상태를 막는 배선이 실제로 닿는지 본다 — 탭 하나가 렌더 중 던지면
-   * 빈 화면 대신 `CrashScreen`이 뜨고, `IErrorLog`에 기록이 남아야 한다.
+   * 빈 화면 대신 오류 띠가 뜨고, `IErrorLog`에 기록이 남아야 한다.
    */
   describe("렌더 오류 보호", () => {
-    it("탭이 렌더 중 던지면 CrashScreen이 뜨고 IErrorLog에 남는다", async () => {
+    it("탭이 렌더 중 던지면 오류 띠가 뜨고 IErrorLog에 남는다", async () => {
       // React가 잡힌 오류를 console.error로도 내보낸다 — 테스트 출력이 그걸로 덮이지 않게 막는다.
       const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
       const container = track(createApplication([mocks(new MockWorkspaceFiles({ "a.md": "" }))]));
@@ -186,11 +207,12 @@ describe("registerServices", () => {
   });
 
   describe("커맨드와 단축키", () => {
-    it("키보드 단축키 커맨드가 목록 탭을 연다", async () => {
+    it("키보드 단축키 커맨드가 설정 탭을 열고 거기 단축키 표가 있다", async () => {
       mountWith(new MockWorkspaceFiles({}));
       fireEvent.keyDown(window, { key: "k", ctrlKey: true });
       fireEvent.click(await screen.findByText("키보드 단축키 보기"));
-      expect(await screen.findByRole("tab", { name: /키보드 단축키/u })).toBeDefined();
+      expect(await screen.findByRole("tab", { name: /설정/u })).toBeDefined();
+      expect(await screen.findByRole("heading", { name: "단축키" })).toBeDefined();
       expect(screen.getByText("shell.openCommandPalette")).toBeDefined();
     });
   });
@@ -208,7 +230,7 @@ describe("registerServices", () => {
   });
 
   describe("부팅", () => {
-    it("셸 모듈과 확장이 기여 지점을 채운다 — 사이드바 하나, 탭 provider 셋, 밀도 설정, 명령", () => {
+    it("셸 모듈과 확장이 기여 지점을 채운다 — 사이드바 하나, 탭 provider 둘, 밀도 설정, 명령", () => {
       const container = track(createApplication([mocks(new MockWorkspaceFiles({}))]));
 
       expect(
@@ -223,7 +245,7 @@ describe("registerServices", () => {
           .list()
           .map((provider) => provider.id)
           .sort(),
-      ).toEqual(["arka.filesystem.text", "arka.workbench.keybindings", "arka.workbench.settings"]);
+      ).toEqual(["arka.filesystem.text", "arka.workbench.settings"]);
       expect(
         container
           .resolve("arka.settings")

@@ -38,6 +38,12 @@ const RESIZABLE_MAX_WIDTH = "480px";
 
 const hasContent = (node: ReactNode): boolean => node !== null && node !== undefined && node !== false;
 
+/** 레일 아래 묶음의 설정 줄. 사이드바 id 와 겹치지 않게 접두사를 붙인다. */
+const SETTINGS_ID = "shell.settings";
+const SETTINGS_ROW: readonly SidebarRow[] = [
+  { id: SETTINGS_ID, title: "설정", iconId: "settingsGear", isActive: false },
+];
+
 /**
  * 앱의 뼈대. 확장이 꽂히는 자리를 전부 낸다. `children`을 막는다 — 슬롯이 정해져 있어 아무 자식이나 받지 않는다.
  *
@@ -209,7 +215,13 @@ export const Shell = ({
                     />
                   </div>
                   <div className={styles["sidebarBody"]}>
-                    <ActivityBar items={sidebars} onSelect={onSidebarSelect} onSettingsSelect={onSettingsSelect} />
+                    {/* **설정은 아래 묶음의 한 줄이다** — 레일이 따로 그리는 톱니가 아니다.
+                        셸은 그 줄을 여기서 만들어 넣고, 고르면 `onSettingsSelect` 로 보낸다. */}
+                    <ActivityBar
+                      topItems={sidebars}
+                      bottomItems={SETTINGS_ROW}
+                      onSelect={(id) => (id === SETTINGS_ID ? onSettingsSelect?.() : onSidebarSelect?.(id))}
+                    />
                     {expanded && (
                       <Panel
                         density="compact"

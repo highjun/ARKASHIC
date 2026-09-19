@@ -1,4 +1,4 @@
-/* 레일은 세로로 꽉 찬다 — 위는 스크롤되는 아이콘 목록, 아래는 언제나 보이는 설정 톱니. */
+/* 레일은 세로로 꽉 찬다 — 위 묶음은 스크롤되고, 아래 묶음은 언제나 보인다. */
 .nav {
   display: flex;
   flex-shrink: 0;
@@ -21,11 +21,13 @@
   padding-inline: var(--space-sm);
 }
 
-/* 설정 톱니 자리 — 목록이 넘쳐도 스크롤 밖에 남는다. */
-.footer {
+/* 아래 묶음 — 위가 넘쳐도 스크롤 밖에 남는다. */
+.bottom {
   display: flex;
   flex-shrink: 0;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
   padding-block: var(--space-sm);
   padding-inline: var(--space-sm);
 }

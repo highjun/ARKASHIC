@@ -214,10 +214,11 @@ export class ShellViewModel implements IShellViewModel {
       execute: () => commands.execute("arka.workbench.open", { uri: URI.parse("arka:///settings") }),
     });
     commands.keybindings.add({ keybinding: "ctrl+,", actionId: "shell.openSettings" });
+    // 단축키는 설정 안의 한 범주다 — 제 화면이 없어 같은 곳을 연다.
     commands.actions.add({
       id: "shell.openKeybindings",
       label: "키보드 단축키 보기",
-      execute: () => commands.execute("arka.workbench.open", { uri: URI.parse("arka:///keybindings") }),
+      execute: () => commands.execute("shell.openSettings"),
     });
   }
 }

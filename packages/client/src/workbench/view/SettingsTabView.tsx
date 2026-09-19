@@ -2,6 +2,7 @@ import { useViewModel } from "#core/viewmodel";
 import { observer } from "mobx-react-lite";
 import { Heading } from "@primer/react";
 import { Text } from "#component/Text";
+import { KeybindingTable } from "../component/KeybindingTable";
 import type { SettingsRow } from "../viewmodel/ISettingsViewModel";
 import styles from "./SettingsTabView.module.css";
 
@@ -64,9 +65,15 @@ const SettingsInput = observer(function SettingsInput({
   }
 });
 
-/** 설정 탭. 등록된 스키마를 줄로 편다 — 키가 늘면 줄이 는다. 밝기는 여기 없다 — 헤더의 토글이 바꾼다. */
+/**
+ * 설정 탭. 등록된 스키마를 줄로 편다 — 키가 늘면 줄이 는다. 밝기는 여기 없다 — 헤더의 토글이 바꾼다.
+ *
+ * **단축키도 여기 한 범주다.** 제 화면을 갖지 않는다 — 바꾸는 자리가 여럿이면 어디서 바꾸는지를
+ * 사용자가 기억해야 한다.
+ */
 export const SettingsTabView = observer(function SettingsTabView() {
   const viewModel = useViewModel("arka.workbench.settingsViewModel");
+  const keybindings = useViewModel("arka.workbench.keybindingViewModel");
   return (
     <div data-component="SettingsTabView" className={styles["root"]}>
       {viewModel.rows.map((row) => (
@@ -77,6 +84,12 @@ export const SettingsTabView = observer(function SettingsTabView() {
           <SettingsInput row={row} onChange={(value) => viewModel.set(row.id, value)} />
         </section>
       ))}
+      <section className={styles["section"]}>
+        <Heading as="h2" variant="medium">
+          단축키
+        </Heading>
+        <KeybindingTable rows={keybindings.rows} />
+      </section>
     </div>
   );
 });

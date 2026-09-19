@@ -30,3 +30,16 @@
   min-height: 0;
   flex-grow: 1;
 }
+
+/* 배지가 종 오른쪽 위에 겹친다 — 줄 높이(35px)를 늘리지 않게 흐름 밖으로 뺀다. */
+.bell {
+  position: relative;
+  display: inline-flex;
+}
+
+.bellBadge {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  pointer-events: none;
+}

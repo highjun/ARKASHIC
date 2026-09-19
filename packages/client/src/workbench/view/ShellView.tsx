@@ -1,12 +1,12 @@
 import { ContainerProvider, useViewModel } from "#core/viewmodel";
 import { observer } from "mobx-react-lite";
-import { Banner, ConfirmationDialog } from "@primer/react";
+import { Banner, ConfirmationDialog, CounterLabel } from "@primer/react";
 import { Menu } from "#component/Menu";
 import { Icon } from "#component/Icon";
+import { IconButton } from "#component/IconButton";
 import { ModeToggle } from "#component/ModeToggle";
 import { Text } from "#component/Text";
 import { CommandPalette } from "../component/CommandPalette";
-import { NotificationList } from "../component/NotificationList";
 import { Shell } from "../component/Shell";
 import { Tab } from "../component/Tab";
 import type { ReactNode } from "react";
@@ -130,6 +130,38 @@ export const ShellView = observer(function ShellView() {
             <Text size="small" tone="muted" className={styles["buildId"]}>
               {appStatus.buildId}
             </Text>
+            <Menu kind="dropdown">
+              {/* **`asChild` 다** — Trigger 자신이 `button` 이라 `IconButton` 을 그 안에 넣으면 버튼이 중첩된다. */}
+              <Menu.Trigger asChild>
+                <span className={styles["bell"]}>
+                  <IconButton
+                    variant="invisible"
+                    size="small"
+                    aria-label={
+                      notifications.items.length === 0 ? "알림 없음" : `알림 ${String(notifications.items.length)}건`
+                    }
+                    icon={() => <Icon iconId="bell" size="sm" />}
+                  />
+                  {notifications.items.length === 0 ? null : (
+                    <CounterLabel scheme="primary" className={styles["bellBadge"]}>
+                      {notifications.items.length}
+                    </CounterLabel>
+                  )}
+                </span>
+              </Menu.Trigger>
+              <Menu.Content>
+                {notifications.items.length === 0 ? (
+                  <Menu.Label>온 것이 없다</Menu.Label>
+                ) : (
+                  notifications.items.map((item) => (
+                    <Menu.Item key={item.id} onSelect={() => notifications.dismiss(item.id)}>
+                      <Icon iconId={item.severity === "info" ? "bell" : item.severity} size="sm" />
+                      {item.message}
+                    </Menu.Item>
+                  ))
+                )}
+              </Menu.Content>
+            </Menu>
             <ModeToggle
               values={["light", "dark"]}
               value={shell.colorMode}
@@ -176,8 +208,6 @@ export const ShellView = observer(function ShellView() {
           }
         />
       </Shell>
-
-      <NotificationList items={notifications.items} onDismiss={(id) => notifications.dismiss(id)} />
 
       {pendingClose === null ? null : (
         <ConfirmationDialog

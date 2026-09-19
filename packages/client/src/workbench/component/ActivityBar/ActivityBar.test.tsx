@@ -9,15 +9,17 @@ import {
 import { ActivityBar } from "./ActivityBar";
 import type { SidebarRow } from "./ActivityBar";
 
-const ITEMS: SidebarRow[] = [
+const TOP: SidebarRow[] = [
   { id: "explorer", iconId: "files", title: "탐색기", isActive: true },
   { id: "search", iconId: "search", title: "검색", isActive: false },
 ];
 
+const BOTTOM: SidebarRow[] = [{ id: "settings", iconId: "settingsGear", title: "설정", isActive: false }];
+
 describe("ActivityBar", () => {
   it("클릭 시 onSelect 가 그 id 로 호출된다", () => {
     const onSelect = vi.fn();
-    render(<ActivityBar items={ITEMS} onSelect={onSelect} />);
+    render(<ActivityBar topItems={TOP} onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole("button", { name: "검색" }));
 
@@ -25,33 +27,37 @@ describe("ActivityBar", () => {
   });
 
   it("활성 여부는 줄이 정한다 — aria-pressed 로 드러난다", () => {
-    render(<ActivityBar items={ITEMS} />);
+    render(<ActivityBar topItems={TOP} />);
 
     expect(screen.getByRole("button", { name: "탐색기" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("button", { name: "검색" })).toHaveAttribute("aria-pressed", "false");
   });
 
-  it("맨 아래 설정 톱니를 누르면 onSettingsSelect 가 불린다 — 사이드바가 아니라 onSelect 는 안 불린다", () => {
+  it("아래 묶음도 같은 onSelect 로 간다 — 위와 아래를 가르는 것은 자리지 통로가 아니다", () => {
     const onSelect = vi.fn();
-    const onSettingsSelect = vi.fn();
-    render(<ActivityBar items={ITEMS} onSelect={onSelect} onSettingsSelect={onSettingsSelect} />);
+    render(<ActivityBar topItems={TOP} bottomItems={BOTTOM} onSelect={onSelect} />);
 
     fireEvent.click(screen.getByRole("button", { name: "설정" }));
 
-    expect(onSettingsSelect).toHaveBeenCalledOnce();
-    expect(onSelect).not.toHaveBeenCalled();
+    expect(onSelect).toHaveBeenCalledWith("settings");
+  });
+
+  it("아래 묶음이 없으면 그 자리도 안 잡는다", () => {
+    render(<ActivityBar topItems={TOP} />);
+
+    expect(screen.queryByRole("button", { name: "설정" })).toBeNull();
   });
 
   it("renderItemMenu 를 주면 우클릭에 그 메뉴가 뜬다", () => {
-    render(<ActivityBar items={ITEMS} renderItemMenu={(item) => <span>{item.title} 숨기기</span>} />);
+    render(<ActivityBar topItems={TOP} renderItemMenu={(item) => <span>{item.title} 숨기기</span>} />);
 
     fireEvent.contextMenu(screen.getByRole("button", { name: "검색" }));
 
     expect(screen.getByText("검색 숨기기")).toBeInTheDocument();
   });
 
-  implementsDataComponent((extra) => <ActivityBar items={ITEMS} {...extra} />, "ActivityBar");
-  implementsClassName((extra) => <ActivityBar items={ITEMS} {...extra} />);
-  implementsRef((extra) => <ActivityBar items={ITEMS} {...extra} />, HTMLElement);
-  implementsNoA11yViolations(() => <ActivityBar items={ITEMS} />);
+  implementsDataComponent((extra) => <ActivityBar topItems={TOP} bottomItems={BOTTOM} {...extra} />, "ActivityBar");
+  implementsClassName((extra) => <ActivityBar topItems={TOP} bottomItems={BOTTOM} {...extra} />);
+  implementsRef((extra) => <ActivityBar topItems={TOP} bottomItems={BOTTOM} {...extra} />, HTMLElement);
+  implementsNoA11yViolations(() => <ActivityBar topItems={TOP} bottomItems={BOTTOM} />);
 });

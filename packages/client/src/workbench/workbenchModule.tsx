@@ -22,7 +22,6 @@ import { findLeaf } from "./model/paneTree";
 import { TabLayout } from "./model/TabLayout";
 import { TabSystem } from "./model/TabSystem";
 import { Workspace } from "./model/Workspace";
-import { keybindingsTabProvider } from "./view/keybindingsTabProvider";
 import { settingsTabProvider } from "./view/settingsTabProvider";
 import { AppStatusViewModel } from "./viewmodel/AppStatusViewModel";
 import { CommandPaletteViewModel } from "./viewmodel/CommandPaletteViewModel";
@@ -254,7 +253,6 @@ export const workbench: ExtensionModule = {
     });
     const tabProviders = c.resolve("arka.workbench.tabSystem");
     tabProviders.add(settingsTabProvider);
-    tabProviders.add(keybindingsTabProvider);
 
     // 탭을 여는 길은 명령 하나다 — 사이드바·검색·미리보기가 전부 `arka.workbench.open`을 부른다. 문맥
     // `tab.active.*`는 확장이 "지금 보는 탭"을 셸을 모른 채 읽는 자리다.

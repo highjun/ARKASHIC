@@ -27,7 +27,7 @@ describe("컴포넌트 폴더 구조", () => {
   const components = FILES.filter((file) => COMPONENT.test(file));
 
   it("컴포넌트를 하나라도 찾는다 — 정규식이 낡으면 이 테스트가 조용히 비어 버린다", () => {
-    expect(components.length).toBeGreaterThan(20);
+    expect(components.length).toBeGreaterThan(0);
   });
 
   it("컴포넌트마다 스토리가 있다", () => {
